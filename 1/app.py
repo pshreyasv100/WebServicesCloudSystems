@@ -32,7 +32,8 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def get_all_ids():
-    return records
+    ids = list(records.keys())
+    return ids
 
 @app.route('/<id>', methods=['GET'])
 def get_url(id):
@@ -55,7 +56,7 @@ def add_new_short_url():
 
     records[id] = url
     host_url = request.base_url
-    return (host_url + str(id), 201)
+    return (str(id), 201)
 
 
 @app.route('/<id>', methods=['DELETE'])
@@ -70,6 +71,10 @@ def delete_url(id):
 def update_record():
     id = request.args['id']
     url = request.args['url']
+
+    if not is_valid_url(url):
+        return ("Invalid url", 400)
+    
     if id not in records:
         return ("ID does not exist", 404)
     records[id] = url
