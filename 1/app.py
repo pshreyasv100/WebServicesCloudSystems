@@ -62,10 +62,14 @@ def add_new_short_url():
     return (str(id), 201)
 
 
-@app.route('/<id>', methods=['DELETE'])
-def delete_url(id):
+@app.route('/', methods=['DELETE'])
+def delete_url():
+    try:
+        id = request.args['id']
+    except:
+        return ("",404)
     if id not in records:
-        return ("Invalid ID provided", 404)
+        return ("", 404)
     del records[id]
     return ("Url record Deleted Successfully", 204)
 
