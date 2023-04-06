@@ -67,9 +67,9 @@ def delete_url():
     try:
         id = request.args['id']
     except:
-        return ("",404)
+        return ("Invalid ID",404)
     if id not in records:
-        return ("", 404)
+        return ("Invalid ID", 404)
     del records[id]
     return ("Url record Deleted Successfully", 204)
 
