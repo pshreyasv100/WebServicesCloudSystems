@@ -61,7 +61,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/2ea59c0a48",
+					"raw": "http://127.0.0.1:5000/2ea59f4679",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -71,7 +71,7 @@
 					],
 					"port": "5000",
 					"path": [
-						"2ea59c0a48"
+						"2ea59f4679"
 					]
 				}
 			},
@@ -83,7 +83,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/2ea59c0a48",
+					"raw": "http://127.0.0.1:5000/?id=2ea59f4679",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -93,7 +93,13 @@
 					],
 					"port": "5000",
 					"path": [
-						"2ea59c0a48"
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2ea59f4679"
+						}
 					]
 				}
 			},
@@ -105,7 +111,7 @@
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/?url=https://abcc.com/&id=2ea59c0a48",
+					"raw": "http://127.0.0.1:5000/?url=https://abcc.com/&id=2ea59f4679",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -124,8 +130,30 @@
 						},
 						{
 							"key": "id",
-							"value": "2ea59c0a48"
+							"value": "2ea59f4679"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
 					]
 				}
 			},
