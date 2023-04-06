@@ -22,7 +22,10 @@ def is_valid_url(url):
 # https://datagy.io/python-sha256/
 # Hashing with 256 and taking first 10 characters as id
 def hash_url(url):
-    return hashlib.sha256(url.encode('utf-8')).hexdigest()[0:10]
+    hash_id = hashlib.sha256(url.encode('utf-8')).hexdigest()
+    _first_5 = hash_id[0:5]
+    _last_5 = hash_id[(len(hash_id)-5):len(hash_id)]
+    return _first_5 + _last_5
 
 
 records = {}
