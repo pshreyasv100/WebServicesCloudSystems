@@ -33,45 +33,49 @@ records = {}
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
-def get_all_ids():
-    ids = list(records.keys())
-    return ids
+# @app.route('/', methods=['GET'])
+# def get_all_ids():
+#     ids = list(records.keys())
+#     return ids
+
+
+# https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
+# https://www.digitalocean.com/community/tutorials/how-to-make-a-url-shortener-with-flask-and-sqlite
+
+@app.route('/', methods=['POST', 'DELETE', 'GET'])
+def root_path_operations():
+
+    if request.method == 'POST':
+
+        url = request.args['url']
+        if not is_valid_url(url):
+            return ("error", 400)
+
+        id = hash_url(url)
+        records[id] = url
+        return (str(id), 201)
+
+    if request.method == 'GET':
+        ids = list(records.keys())
+        return ids
+    
+    if request.method == 'DELETE':
+        return ("",404)
+
 
 @app.route('/<id>', methods=['GET'])
 def get_url(id):
     
     if id not in records:
-            return ("No corresponding url found" ,404)
+            return ("" ,404)
     return (records[id], 301)
 
-# https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
-# https://www.digitalocean.com/community/tutorials/how-to-make-a-url-shortener-with-flask-and-sqlite
-
-@app.route('/', methods=['POST'])
-def add_new_short_url():
-
-    url = request.args['url']
-    if not is_valid_url(url):
-        return ("Invalid url", 400)
-
-    id = hash_url(url)
-
-    records[id] = url
-    host_url = request.base_url
-    return (str(id), 201)
-
-
-@app.route('/', methods=['DELETE'])
-def delete_url():
-    try:
-        id = request.args['id']
-    except:
-        return ("Invalid ID",404)
+@app.route('/<id>', methods=['DELETE'])
+def delete_url(id):
     if id not in records:
-        return ("Invalid ID", 404)
+        return ("", 404)
     del records[id]
-    return ("Url record Deleted Successfully", 204)
+    return ("", 204)
 
 
 @app.route('/', methods=['PUT'])
@@ -80,10 +84,10 @@ def update_record():
     url = request.args['url']
 
     if not is_valid_url(url):
-        return ("Invalid url", 400)
+        return ("error", 400)
     
     if id not in records:
-        return ("ID does not exist", 404)
+        return ("", 404)
     records[id] = url
     return ""
 

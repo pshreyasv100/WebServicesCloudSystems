@@ -83,7 +83,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/?id=2ea59f4679",
+					"raw": "http://127.0.0.1:5000/2ea59f4679",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -93,13 +93,7 @@
 					],
 					"port": "5000",
 					"path": [
-						""
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "2ea59f4679"
-						}
+						"2ea59f4679"
 					]
 				}
 			},
