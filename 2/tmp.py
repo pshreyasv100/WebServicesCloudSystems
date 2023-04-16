@@ -25,6 +25,8 @@ import hashlib
 import json
 import time
 
+import datetime
+
 SECRET_KEY = b"secret"
 
 
@@ -68,11 +70,17 @@ def is_valid_jwt(jwt):
         decoded_payload = json.loads(_base64_url_decode(payload))
         username = decoded_payload['sub']
         expiry_of_token = decoded_payload['exp']
-       
+
+ 
+        print(time.asctime( time.localtime(expiry_of_token)))
+        print('----')
+        print(time.asctime( time.localtime(int(time.time()))))
+
         # check if user is valid existing user
         if username in _users.keys():
             # check if token has not expired yet
-            if expiry_of_token > time.time():
+            if expiry_of_token > int(time.time()):
+                print('valid')
                 return (True, username)
 
     return (False, None)
@@ -100,7 +108,7 @@ def get_jwt(username, password):
 
    
     # token expires after 3 seconds
-    exp_seconds = 100
+    exp_seconds = 30
     payload = {"sub": username,  "exp": int(time.time()) + exp_seconds}
 
     jwt = _generate_jwt(payload)

@@ -55,7 +55,7 @@ def is_valid_jwt(jwt):
         # check if user is valid existing user
         if username in _users.keys():
             # check if token has not expired yet
-            if expiry_of_token > time.time():
+            if expiry_of_token > int(time.time()):
                 return (True, username)
 
     return (False, None)
@@ -83,8 +83,8 @@ def get_jwt(username, password):
         return (403, "forbidden")
 
    
-    # token expires after 5 seconds
-    exp_seconds = 10000
+    # token expires after 30 seconds
+    exp_seconds = 30
     payload = {"sub": username,  "exp": int(time.time()) + exp_seconds}
 
     jwt = _generate_jwt(payload)
