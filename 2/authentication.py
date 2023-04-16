@@ -84,7 +84,7 @@ def get_jwt(username, password):
 
    
     # token expires after 30 seconds
-    exp_seconds = 30
+    exp_seconds = 100
     payload = {"sub": username,  "exp": int(time.time()) + exp_seconds}
 
     jwt = _generate_jwt(payload)

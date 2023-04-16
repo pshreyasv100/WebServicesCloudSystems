@@ -120,7 +120,8 @@ def delete_url(id):
 @app.route('/', methods=['PUT'])
 def update_record():
     id = request.args['id']
-    url = request.args['url']
+    url = request.get_json()['url']
+
 
     jwt_token = request.headers.get('Authorization').split(' ')[1]
     _is_valid_jwt, username =  is_valid_jwt(jwt_token)
