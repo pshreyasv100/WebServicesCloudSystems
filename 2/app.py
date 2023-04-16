@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 import datetime
 import hashlib
 
-from authentication import add_new_user, get_jwt, is_valid_jwt
+from authentication import add_new_user, get_jwt, is_valid_jwt, reset_password
 
 # https://uibakery.io/regex-library/url-regex-python
 def is_valid_url(url):
@@ -113,7 +113,7 @@ def delete_url(id):
     else:   
         existing = records[username]
         del existing[id]
-        
+
     return ("", 204)
 
 
@@ -157,7 +157,17 @@ def register():
 
     return ("duplicate", 409)
 
-  
+@app.route('/users', methods=['PUT'])
+def update_password():
+    username = request.args['username']
+    old_password = request.args['old_password']
+    new_password = request.args['new_password']
+
+    
+    status,msg = reset_password(username, old_password, new_password)
+    return(msg,status)
+
+
 
 @app.route('/users/login', methods=['POST'])
 def login():

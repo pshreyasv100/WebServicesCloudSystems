@@ -107,3 +107,12 @@ def add_new_user(username, password):
     return (409, "duplicate")
 
 
+def reset_password(username, old_password, new_password):
+
+    if username in _users.keys():
+
+        if old_password == _users[username]:
+            _users[username] = new_password
+            return (200, "")
+    
+    return (403, "forbidden")
