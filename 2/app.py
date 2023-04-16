@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 import datetime
 import hashlib
 
-
+from authentication import add_new_user, get_jwt, is_valid_jwt
 
 # https://uibakery.io/regex-library/url-regex-python
 def is_valid_url(url):
@@ -30,13 +30,7 @@ def hash_url(url):
 
 records = {}
 
-
 app = Flask(__name__)
-
-# @app.route('/', methods=['GET'])
-# def get_all_ids():
-#     ids = list(records.keys())
-#     return ids
 
 
 # https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
@@ -45,6 +39,14 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'DELETE', 'GET'])
 def root_path_operations():
 
+    jwt_token = request.headers.get('Authorization').split(' ')[1]
+    _is_valid_jwt, username =  is_valid_jwt(jwt_token)
+
+    # Verify if jwt token is valid
+    if not _is_valid_jwt:
+        return("forbidden", 403)
+
+    # POST
     if request.method == 'POST':
 
         url = request.args['url']
@@ -52,13 +54,23 @@ def root_path_operations():
             return ("error", 400)
 
         id = hash_url(url)
-        records[id] = url
+        if username not in records.keys():
+            records[username] = {id:url}
+        else:   
+            existing = records[username]
+            existing.update({id:url})
+
         return (str(id), 201)
 
+    # GET
     if request.method == 'GET':
-        ids = list(records.keys())
+
+        if username not in records.keys():
+            return []
+        ids = list(records[username].keys())
         return ids
     
+    # DELETE
     if request.method == 'DELETE':
         return ("",404)
 
@@ -66,15 +78,42 @@ def root_path_operations():
 @app.route('/<id>', methods=['GET'])
 def get_url(id):
     
-    if id not in records:
+    jwt_token = request.headers.get('Authorization').split(' ')[1]
+    _is_valid_jwt, username =  is_valid_jwt(jwt_token)
+
+    # Verify if jwt token is valid
+    if not _is_valid_jwt:
+        return("forbidden", 403)
+
+    if username not in records.keys():
+        return ("" ,404)
+       
+    existing = records[username]
+    if id not in existing:
             return ("" ,404)
-    return (records[id], 301)
+    return (existing[id], 301)
 
 @app.route('/<id>', methods=['DELETE'])
 def delete_url(id):
-    if id not in records:
-        return ("", 404)
-    del records[id]
+
+    jwt_token = request.headers.get('Authorization').split(' ')[1]
+    _is_valid_jwt, username =  is_valid_jwt(jwt_token)
+
+    # Verify if jwt token is valid
+    if not _is_valid_jwt:
+        return("forbidden", 403)
+    
+
+    if username not in records.keys():
+        return ("" ,404)
+     
+    existing = records[username]
+    if id not in existing:
+            return ("" ,404)
+    else:   
+        existing = records[username]
+        del existing[id]
+        
     return ("", 204)
 
 
@@ -83,13 +122,57 @@ def update_record():
     id = request.args['id']
     url = request.args['url']
 
+    jwt_token = request.headers.get('Authorization').split(' ')[1]
+    _is_valid_jwt, username =  is_valid_jwt(jwt_token)
+
+    # Verify if jwt token is valid
+    if not _is_valid_jwt:
+        return("forbidden", 403)
+
     if not is_valid_url(url):
         return ("error", 400)
     
-    if id not in records:
-        return ("", 404)
-    records[id] = url
+  
+    if username not in records.keys():
+        return ("" ,404)
+     
+    existing = records[username]
+    if id not in existing:
+            return ("" ,404)
+    else:   
+        existing = records[username]
+        existing.update({id:url})
     return ""
+
+
+
+@app.route('/users', methods=['POST'])
+def register():
+    username = request.args['username']
+    password = request.args['password']
+
+    status,msg = add_new_user(username, password)
+    if status == 201:
+        return("",201)
+
+    return ("duplicate", 409)
+
+  
+
+@app.route('/users/login', methods=['POST'])
+def login():
+    username = request.args['username']
+    password = request.args['password']
+
+    status, jwt = get_jwt(username, password)
+    if status == 403:
+        return ("forbidden", 403)
+    
+    return (jwt, 200)
+
+  
+
+
 
 
 
