@@ -1,7 +1,15 @@
-### WebServicesCloudSystems assignment 1
+### WebServicesCloudSystems assignment 2
 ### Group 30
-- The repository contains the url shortner service implementation
-- To run the service the app.py module needs to be executed <br/>
-`$python app.py`
+- The repository contains the code for second assignment
 
-The service can be accessed at http://127.0.0.1:5000 
+- There are 2 services corresponding to to urlshortener and authentication
+
+- To run the urlshortener service the urlshortener_service.py module needs to be executed <br/>
+`$python urlshortener_service.py`
+
+- To run the authentication service the authentication_service.py module needs to be exectud <br/>
+`$python urlshortener_service.py`
+
+Access endpoint for both <br/>
+url shortener service at  http://127.0.0.1:5000  <br/>
+authentication service at http://127.0.0.1:5001  <br/>
