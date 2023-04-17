@@ -84,9 +84,15 @@ def get_jwt(username, password):
         return (403, "forbidden")
 
    
-    # token expires after 30 seconds
+    # token expires after 100 seconds
     exp_seconds = 100
-    payload = {"sub": username,  "exp": int(time.time()) + exp_seconds}
+    payload = { 
+        "iss": "authentication.com",
+        "sub": username,  
+        "aud": "urlshortener.com",
+        "exp": int(time.time()) + exp_seconds,
+        "iat": int(time.time()) 
+    }
 
     jwt = _generate_jwt(payload)
     return (200, jwt)
