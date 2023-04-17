@@ -3,6 +3,7 @@
 # https://vegibit.com/json-web-tokens-in-python/
 # https://www.freecodecamp.org/news/how-to-sign-and-validate-json-web-tokens/
 
+
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 import hmac
 import hashlib
@@ -79,7 +80,7 @@ def _generate_jwt(payload):
 def get_jwt(username, password):
 
     # checks if user exists and password matches
-    if not _is_existing_user(username, password):
+    if not _is_valid_user(username, password):
         return (403, "forbidden")
 
    
@@ -92,7 +93,7 @@ def get_jwt(username, password):
 
 
 
-def _is_existing_user(username,password):
+def _is_valid_user(username,password):
     
     if username in _users.keys() and _users[username] == password:
         return True
@@ -101,7 +102,7 @@ def _is_existing_user(username,password):
 
 def add_new_user(username, password):
     
-    if not _is_existing_user(username, password):
+    if not username in _users.keys():
         _users[username] = password
         return (201,"")
     return (409, "duplicate")
