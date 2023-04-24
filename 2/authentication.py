@@ -21,7 +21,7 @@ _users= {}
 def _base64_url_encode(data):
     return urlsafe_b64encode(data).rstrip(b'=').decode('utf-8')
 
-
+# https://lindevs.com/code-snippets/base64url-encode-and-decode-using-python
 def _base64_url_decode(base64Url):
     padding = '=' * (4 - (len(base64Url) % 4))
     return urlsafe_b64decode(base64Url + padding).decode('utf-8')
