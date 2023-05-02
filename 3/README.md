@@ -13,3 +13,8 @@
 Access endpoint for both <br/>
 url shortener service at  http://127.0.0.1:5000  <br/>
 authentication service at http://127.0.0.1:5001  <br/>
+
+
+References
+
+- https://www.tinystacks.com/blog-post/flask-crud-api-with-postgres/

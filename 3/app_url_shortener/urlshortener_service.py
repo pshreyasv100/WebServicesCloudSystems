@@ -1,13 +1,11 @@
 #!/usr/bin/env python
-import json
-from flask import Flask, request, jsonify, redirect, url_for
+from flask import Flask, request
 import re
-from urllib.parse import urlparse
-import datetime
 import hashlib
 import requests
+from flask_cors import CORS
 
-from authentication import add_new_user, get_jwt, is_valid_jwt, reset_password
+
 
 # https://uibakery.io/regex-library/url-regex-python
 def is_valid_url(url):
@@ -31,6 +29,7 @@ def hash_url(url):
 
 records = {}
 app = Flask(__name__)
+CORS(app)
 
 
 # https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
@@ -157,4 +156,4 @@ def update_record():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)

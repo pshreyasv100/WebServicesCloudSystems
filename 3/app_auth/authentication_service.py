@@ -3,16 +3,20 @@
 import json
 from flask import Flask, request, jsonify, redirect, url_for
 from authentication import add_new_user, get_jwt, is_valid_jwt, reset_password
+from flask_cors import CORS
+
 
 
 # https://stackoverflow.com/questions/59549527/calling-rest-api-of-a-flask-app-from-another-flask-app
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/users', methods=['POST'])
 def register():
+    print('inside authentication creation')
     username = request.args['username']
     password = request.args['password']
 
