@@ -16,7 +16,7 @@ COPY authentication_service.py .
 COPY authentication.py .
 
 
-CMD ["python3", "-m", "flask", "run"]
+CMD ["flask", "run"]
 
 # References
 # https://stackoverflow.com/questions/67506827/error-connect-econnrefused-127-0-0-15000-or-error-socket-hang-up-after-get-re

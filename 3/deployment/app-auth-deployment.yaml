@@ -1,23 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-auth-deployment
+  name: auth-deployment
   labels:
-    app: app-auth-api
+    app: auth-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-auth-api
-      version : original
+      app: auth-api
   template:
     metadata:
       labels:
-        app: app-auth-api
-        version : original
+        app: auth-api
     spec:
       containers:
-      - name: app-auth-api-container
-        image: pshreyasv/app-auth:v1
+      - name: auth-api-container
+        image: pshreyasv/auth-api:v1
         ports:
           - containerPort: 5001
