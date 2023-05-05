@@ -21,14 +21,14 @@ spec:
               service:
                 name: auth
                 port:
-                  number: 8081
+                  number: 5000
           - path: /
             pathType: Prefix
             backend:
               service:
                 name: app
                 port:
-                  number: 8082
+                  number: 5000
 
 
 

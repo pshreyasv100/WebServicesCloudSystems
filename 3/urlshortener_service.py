@@ -32,9 +32,8 @@ app = Flask(__name__)
 CORS(app)
 
 
+# service name of authentication , same name specified in docker-compose , nginx.con, service.yml, ingress.yml
 AUTH_HOST = 'auth'
-# used in kubernetes 
-# AUTH_PORT = '8081'
 
 # used to access service when run using docker compose 
 AUTH_PORT = '5000'
