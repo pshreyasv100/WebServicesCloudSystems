@@ -20,4 +20,6 @@ References
 - https://www.tinystacks.com/blog-post/flask-crud-api-with-postgres/
 
 
-- https://platform9.com/learn/v1.0/tutorials/nginix-controller-via-yaml
+- https://kubernetes.github.io/ingress-nginx/deploy/baremetal/
+
+- https://metallb.universe.tf/installation/

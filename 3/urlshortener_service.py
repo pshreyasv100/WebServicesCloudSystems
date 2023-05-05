@@ -32,6 +32,8 @@ app = Flask(__name__)
 CORS(app)
 
 
+AUTH_HOST = 'localhost'
+AUTH_PORT = '30001'
 # https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
 # https://www.digitalocean.com/community/tutorials/how-to-make-a-url-shortener-with-flask-and-sqlite
 
@@ -39,10 +41,9 @@ CORS(app)
 def root_path_operations():
 
     jwt = request.headers.get('Authorization').split(' ')[1]
-    response  = requests.post(url=f"http://0.0.0.0:5001/users/validate_jwt/{jwt}")
+    response  = requests.post(url=f"http://{AUTH_HOST}/users/validate_jwt/{jwt}")
     _is_valid_jwt, username = (response.json())
-
-  
+    
     # Verify if jwt token is valid
     if not _is_valid_jwt:
         return("forbidden", 403)
@@ -81,7 +82,7 @@ def root_path_operations():
 def get_url(id):
     
     jwt = request.headers.get('Authorization').split(' ')[1]
-    response  = requests.post(url=f"http://0.0.0.0:5001/users/validate_jwt/{jwt}")
+    response  = requests.post(url=f"http://{AUTH_HOST}/users/validate_jwt/{jwt}")
     _is_valid_jwt, username = (response.json())
 
     # Verify if jwt token is valid
@@ -100,7 +101,7 @@ def get_url(id):
 def delete_url(id):
 
     jwt = request.headers.get('Authorization').split(' ')[1]
-    response  = requests.post(url=f"http://0.0.0.0:5001/users/validate_jwt/{jwt}")
+    response  = requests.post(url=f"http://{AUTH_HOST}/users/validate_jwt/{jwt}")
     _is_valid_jwt, username = (response.json())
 
 
@@ -128,7 +129,7 @@ def update_record():
     url = request.get_json()['url']
 
     jwt = request.headers.get('Authorization').split(' ')[1]
-    response  = requests.post(url=f"http://0.0.0.0:5001/users/validate_jwt/{jwt}")
+    response  = requests.post(url=f"http://{AUTH_HOST}/users/validate_jwt/{jwt}")
     _is_valid_jwt, username = (response.json())
 
 
@@ -156,4 +157,4 @@ def update_record():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True)
+    app.run(debug=True)

@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+
+  auth:
+    build:
+      context: .
+      dockerfile: auth.Dockerfile
+
+  app:
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+
+  reverse-proxy:
+    build:
+      context: .
+      dockerfile: nginxproxy.Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - auth
+      - url-shortener
