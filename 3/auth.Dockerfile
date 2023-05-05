@@ -6,11 +6,11 @@ WORKDIR /code
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-EXPOSE 5001
+EXPOSE 5000
 
 ENV FLASK_APP=authentication_service.py
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5001
+ENV FLASK_RUN_PORT=5000
 
 COPY authentication_service.py .
 COPY authentication.py .

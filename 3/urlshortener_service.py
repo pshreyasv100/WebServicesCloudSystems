@@ -32,8 +32,12 @@ app = Flask(__name__)
 CORS(app)
 
 
-AUTH_HOST = 'localhost'
-AUTH_PORT = '30001'
+AUTH_HOST = 'auth'
+# used in kubernetes 
+# AUTH_PORT = '8081'
+
+# used to access service when run using docker compose 
+AUTH_PORT = '5000'
 # https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
 # https://www.digitalocean.com/community/tutorials/how-to-make-a-url-shortener-with-flask-and-sqlite
 
@@ -41,7 +45,7 @@ AUTH_PORT = '30001'
 def root_path_operations():
 
     jwt = request.headers.get('Authorization').split(' ')[1]
-    response  = requests.post(url=f"http://{AUTH_HOST}/users/validate_jwt/{jwt}")
+    response  = requests.post(url=f"http://{AUTH_HOST}:{AUTH_PORT}/users/validate_jwt/{jwt}")
     _is_valid_jwt, username = (response.json())
     
     # Verify if jwt token is valid
@@ -82,7 +86,7 @@ def root_path_operations():
 def get_url(id):
     
     jwt = request.headers.get('Authorization').split(' ')[1]
-    response  = requests.post(url=f"http://{AUTH_HOST}/users/validate_jwt/{jwt}")
+    response  = requests.post(url=f"http://{AUTH_HOST}:{AUTH_PORT}/users/validate_jwt/{jwt}")
     _is_valid_jwt, username = (response.json())
 
     # Verify if jwt token is valid
@@ -129,7 +133,7 @@ def update_record():
     url = request.get_json()['url']
 
     jwt = request.headers.get('Authorization').split(' ')[1]
-    response  = requests.post(url=f"http://{AUTH_HOST}/users/validate_jwt/{jwt}")
+    response  = requests.post(url=f"http://{AUTH_HOST}:{AUTH_PORT}/users/validate_jwt/{jwt}")
     _is_valid_jwt, username = (response.json())
 
 

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app-api-container
-        image: pshreyasv/app-api:v9
+        image: pshreyasv/app:v1.1
         ports:
           - containerPort: 5000
 ---
@@ -39,6 +39,6 @@ spec:
     spec:
       containers:
       - name: auth-api-container
-        image: pshreyasv/auth-api:v8
+        image: pshreyasv/auth:v1.1
         ports:
-          - containerPort: 5001
+          - containerPort: 5000
