@@ -1,3 +1,4 @@
+# URL shortener deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -5,7 +6,7 @@ metadata:
   labels:
     app: app-api
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: app-api
@@ -21,6 +22,8 @@ spec:
           - containerPort: 5000
 ---
 
+# Authentication deployment
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,7 +31,7 @@ metadata:
   labels:
     app: auth-api
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: auth-api
@@ -39,6 +42,16 @@ spec:
     spec:
       containers:
       - name: auth-api-container
-        image: pshreyasv/auth:v1.1
+        image: pshreyasv/auth:v3.1
         ports:
           - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: postgres-config
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRES_PASSWORD
+         

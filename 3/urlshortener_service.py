@@ -34,8 +34,6 @@ CORS(app)
 
 # service name of authentication , same name specified in docker-compose , nginx.con, service.yml, ingress.yml
 AUTH_HOST = 'auth'
-
-# used to access service when run using docker compose 
 AUTH_PORT = '5000'
 # https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
 # https://www.digitalocean.com/community/tutorials/how-to-make-a-url-shortener-with-flask-and-sqlite

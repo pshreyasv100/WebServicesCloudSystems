@@ -1,0 +1,48 @@
+
+# Postgres Deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres-container
+        image: postgres:13.1-alpine
+        imagePullPolicy: "IfNotPresent"
+        ports:
+          - containerPort: 5432
+        envFrom:
+          - configMapRef:
+              name: postgres-config
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRES_PASSWORD
+        volumeMounts:
+        - mountPath: /opt/data
+          name: postgredb
+        
+        # Create table while at pods startup, wait 20 seconds to allow the postgres db to load up before attempting to create the table
+        lifecycle:
+          postStart:
+            exec:
+              command:
+                - "/bin/bash"
+                - "-c"
+                - "sleep 20 && PGPASSWORD=$POSTGRES_PASSWORD psql $POSTGRES_DB -U $POSTGRES_USER -c 'CREATE TABLE IF NOT EXISTS users (username VARCHAR PRIMARY KEY, password VARCHAR NOT NULL); CREATE TABLE IF NOT EXISTS records (id SERIAL PRIMARY KEY, user_username VARCHAR NOT NULL REFERENCES users(username))'"
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: db-pvc
